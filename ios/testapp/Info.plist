@@ -52,5 +52,10 @@
 			</dict>
 		</dict>
 	</dict>
+  <!-- CameraRoll permission key -->
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Save photo to camera roll</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Save photo to camera roll</string>
 </dict>
 </plist>
