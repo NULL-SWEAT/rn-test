@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Dimensions,
-  CameraRoll
+  CameraRoll,
+  PermissionsAndroid
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
@@ -19,25 +20,28 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  componentWillMount() {
+    this.requestCameraPermission()
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <RNCamera
-            ref={ref => {
-              this.camera = ref;
-            }}
+            ref={ref => { this.camera = ref; }}
             style = {styles.preview}
             type={RNCamera.Constants.Type.back}
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
         />
         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
-        <TouchableOpacity
-            onPress={this.takePicture.bind(this)}
-            style = {styles.capture}
-        >
-            <Text style={{fontSize: 14}}> SNAP </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+              onPress={this.takePicture.bind(this)}
+              style = {styles.capture}
+          >
+              <Text style={{fontSize: 14}}> SNAP </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -47,9 +51,25 @@ export default class App extends Component<Props> {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options)
-      CameraRoll.saveToCameraRoll(data.uri);
+      // window.alert('base64:' + data.base64)
+      await CameraRoll.saveToCameraRoll(data.uri);
     }
   };
+
+  requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          'title': 'Write to external storage Permission',
+          'message': 'Write to external storage Permission needed to save photo'
+        }
+      )
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
 }
 
 const styles = StyleSheet.create({
