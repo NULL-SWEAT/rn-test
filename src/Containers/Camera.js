@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
+  Platform,
   CameraRoll,
   PermissionsAndroid
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-type Props = {};
-export default class App extends Component<Props> {
+export default class Camera extends Component {
 
   componentWillMount() {
-    this.requestCameraPermission()
+    if(Platform.OS === 'android' && !PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)) {
+      this.requestCameraPermission()
+    }
   }
 
   render() {
@@ -35,6 +28,7 @@ export default class App extends Component<Props> {
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
         />
+
         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center',}}>
           <TouchableOpacity
               onPress={this.takePicture.bind(this)}
