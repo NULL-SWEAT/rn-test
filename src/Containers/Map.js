@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, PermissionsAndroid, Platform, Geolocation } from 'react-native'
 import MapView from 'react-native-maps';
 
 export default class Map extends Component {
   static navigationOptions = {
     title: 'react-native-maps',
+  }
+
+  componentWillMount() {
+    if(Platform.OS === 'android' && !PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
+      this.requestGeolocationPermission()
+    }
   }
 
   render() {
@@ -22,6 +28,20 @@ export default class Map extends Component {
         </MapView>
       </View>
     )
+  }
+
+  requestGeolocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          'title': 'Geolocation permission',
+          'message': 'Geolocation permission'
+        }
+      )
+    } catch (err) {
+      console.warn(err)
+    }
   }
 }
 
