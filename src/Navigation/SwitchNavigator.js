@@ -17,7 +17,10 @@ const AppStack = StackNavigator({
   // initialRouteName: 'Home',
 });
 
-const AuthStack = StackNavigator({ SignIn: { screen: SignIn }, SignUp: { screen: SignUp } });
+const AuthStack = StackNavigator({
+  SignIn: { screen: SignIn },
+  SignUp: { screen: SignUp }
+});
 
 export default SwitchNavigator(
   {
