@@ -27,6 +27,12 @@ export default class Home extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.btn}
+          onPress={() => this.props.navigation.navigate('Map')}
+        >
+          <Text>Map</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn}
           onPress={this.firebaseSignOut}
         >
           <Text>Sign out</Text>

@@ -7,10 +7,12 @@ import SignUp from '../Containers/SignUp'
 
 import Camera from '../Containers/Camera'
 import Home from '../Containers/Home'
+import Map from '../Containers/Map'
 
 const AppStack = StackNavigator({
   Home: { screen: Home },
   Camera: { screen: Camera },
+  Map: { screen: Map }
 }, {
   // Default config for all screens
   headerMode: 'screen',
