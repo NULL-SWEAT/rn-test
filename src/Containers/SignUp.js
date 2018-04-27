@@ -1,47 +1,27 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, AsyncStorage, TouchableOpacity, Text, TextInput, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native'
 import firebase from 'react-native-firebase'
-
-import FacebookLogin from './FacebookLogin'
 
 export default class SignIn extends Component {
   constructor() {
     super()
-    this.state = {
-      loading: true,
-    }
+    this.state = {}
   }
 
   static navigationOptions = {
-    title: 'Login',
-  }
-
-  componentDidMount() {
-    this.authSubscription = firebase.auth().onAuthStateChanged( (user) => {
-      this.setState({
-        loading: false,
-        user
-      })
-    })
-  }
-
-  componentWillUnmount() {
-    this.authSubscription()
+    title: 'Registrar-se',
   }
 
   render() {
-    if(this.state.loading) return(
-      <View style={styles.container}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-
-    if(this.state.user) return(
-      this.props.navigation.navigate('App')
-    )
-
     return (
       <View style={styles.container}>
+        <Text>Nome:</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(name) => this.setState({ name })}
+          value={this.state.name}
+        />
+
         <Text>Email:</Text>
         <TextInput
           style={styles.input}
@@ -58,26 +38,19 @@ export default class SignIn extends Component {
         />
 
         <TouchableOpacity style={styles.btn}
-          onPress={this.emailLogin}
+          onPress={this.emailSignUp}
         >
-          <Text>Entrar</Text>
+          <Text>Registrar</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('SignUp')}
-        >
-          <Text>Registrar-se</Text>
-        </TouchableOpacity>
-
-        <FacebookLogin />
       </View>
     )
   }
 
-  emailLogin = () => {
+  emailSignUp = () => {
     const { email, password } = this.state
-    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
+    firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
       .then((user) => {
+        if(this.state.name) user.updateProfile({ displayName: this.state.name })
         // If you need to do anything with the user, do it here
         // The user will be logged in automatically by the
         // `onAuthStateChanged` listener we set up in App.js earlier
@@ -85,9 +58,6 @@ export default class SignIn extends Component {
       .catch((error) => {
         const { code, message } = error
         window.alert(message)
-        // For details of error codes, see the docs
-        // The message contains the default Firebase string
-        // representation of the error
       })
   }
 }
@@ -101,7 +71,7 @@ const styles = StyleSheet.create({
   input: {
     height: 45,
     width: 250,
-    margin: 5
+    marginBottom: 15
   },
   btn: {
     alignItems: 'center',

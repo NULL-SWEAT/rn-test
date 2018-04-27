@@ -1,32 +1,65 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Button, AsyncStorage } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import firebase from 'react-native-firebase'
 
 export default class Home extends Component {
+  static navigationOptions = {
+    title: 'Home',
+  }
+
+  componentWillMount() {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Button
-            onPress={() => this.props.navigation.navigate('Camera')}
-            title='Camera'
-          />
 
-          <Button
-            onPress={this._signOutAsync}
-            title='Sign Out'
-          />
+        {/* <Text>{JSON.stringify(this.state.currentUser)}</Text> */}
+        <Text>Email: {this.state.currentUser.email}</Text>
+        <Text>Nome: {this.state.currentUser.displayName}</Text>
+
+        <TouchableOpacity style={styles.btn}
+          onPress={() => this.props.navigation.navigate('Camera')}
+        >
+          <Text>Camera</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn}
+          onPress={this.firebaseSignOut}
+        >
+          <Text>Sign out</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn}
+          onPress={this.deleteAcc}
+        >
+          <Text>Deletar conta</Text>
+        </TouchableOpacity>
       </View>
     )
   }
 
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
+  firebaseSignOut = async () => {
+    await firebase.auth().signOut()
+    this.props.navigation.navigate('Auth')
+  }
+
+  deleteAcc = async () => {
+    await firebase.auth().currentUser.delete()
+    this.props.navigation.navigate('Auth')
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  btn: {
+    alignItems: 'center',
+    backgroundColor: '#AAAAFF',
+    padding: 10,
+    margin: 5
   }
 })
