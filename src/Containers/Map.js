@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator } from 'react-native'
 import MapView, { Marker } from 'react-native-maps';
 
+let markersCount = 0
+
 export default class Map extends Component {
   constructor(props) {
     super(props)
@@ -9,7 +11,10 @@ export default class Map extends Component {
       latitude: null,
       longitude: null,
       error: null,
+      markers: [],
+      markersCount: 0
     }
+    this.onMapPress = this.onMapPress.bind(this);
   }
 
   static navigationOptions = {
@@ -37,6 +42,18 @@ export default class Map extends Component {
     )
   }
 
+  onMapPress(e) {
+    this.setState({
+      markers: [
+        ...this.state.markers,
+        {
+          coordinate: e.nativeEvent.coordinate,
+          key: markersCount++,
+        },
+      ],
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -50,6 +67,7 @@ export default class Map extends Component {
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121,
               }}
+              onPress={this.onMapPress}
             >
 
               <Marker
@@ -60,6 +78,14 @@ export default class Map extends Component {
                 }}
                 anchor={{ x: 0.69, y: 1 }}
               />
+
+              {this.state.markers.map(marker => (
+                <Marker
+                  title={`Marker ${marker.key}`}
+                  key={marker.key}
+                  coordinate={marker.coordinate}
+                />
+              ))}
 
             </MapView>
           ) : <ActivityIndicator style={styles.loading} size="large" />
