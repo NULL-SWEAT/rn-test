@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator } from 'react-native'
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 export default class Map extends Component {
   constructor(props) {
@@ -51,6 +51,16 @@ export default class Map extends Component {
                 longitudeDelta: 0.0121,
               }}
             >
+
+              <Marker
+                title={'Sua posição atual'}
+                coordinate={{
+                  latitude: this.state.latitude,
+                  longitude: this.state.longitude,
+                }}
+                anchor={{ x: 0.69, y: 1 }}
+              />
+
             </MapView>
           ) : <ActivityIndicator style={styles.loading} size="large" />
         }
