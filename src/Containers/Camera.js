@@ -13,9 +13,12 @@ import { RNCamera } from 'react-native-camera';
 export default class Camera extends Component {
 
   componentWillMount() {
-    if(Platform.OS === 'android' && !PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)) {
-      this.requestCameraPermission()
-    }
+    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+      .then( r => {
+        if (r === false && Platform.OS === 'android') {
+          this.requestCameraPermission()
+        }
+      })
   }
 
   render() {
@@ -35,6 +38,13 @@ export default class Camera extends Component {
               style = {styles.capture}
           >
               <Text style={{fontSize: 14}}> SNAP </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+              onPress={()=>this.props.navigation.navigate('CameraGallery')}
+              style = {styles.gallery}
+          >
+              <Text style={{fontSize: 14}}> Galeria </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -85,5 +95,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignSelf: 'center',
     margin: 20
+  },
+  gallery: {
+    flex: 0,
+    position: 'absolute',
+    right: 0,
+    backgroundColor: '#FFF',
+    padding: 15,
+    margin: 20,
   }
 });
