@@ -12,8 +12,7 @@ export default class Map extends Component {
       longitude: null,
       error: null,
       markers: [],
-      region: {
-      },
+      region: {},
     }
     this.onMapPress = this.onMapPress.bind(this);
     this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
@@ -50,6 +49,8 @@ export default class Map extends Component {
   }
 
   onMapPress(e) {
+    this.props.navigation.navigate('MapModal')
+
     this.setState({
       markers: [
         ...this.state.markers,
@@ -89,6 +90,7 @@ export default class Map extends Component {
               {this.state.markers.map(marker => (
                 <Marker
                   title={`Marker ${marker.key}`}
+                  description={marker.description}
                   key={marker.key}
                   coordinate={marker.coordinate}
                 />

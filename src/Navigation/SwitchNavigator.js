@@ -10,6 +10,8 @@ import Home from '../Containers/Home'
 import Map from '../Containers/Map'
 import CameraGallery from '../Containers/CameraGallery'
 
+import MapModal from '../Components/MapModal'
+
 const AppStack = StackNavigator({
   Home: { screen: Home },
   Camera: { screen: Camera },
@@ -26,10 +28,16 @@ const AuthStack = StackNavigator({
   SignUp: { screen: SignUp }
 });
 
+const RootStack = StackNavigator({
+  Main: { screen: AppStack },
+  MapModal: { screen: MapModal },
+}, { headerMode: 'none' }
+)
+
 export default SwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
+    App: RootStack,
     Auth: AuthStack,
   },
   {
