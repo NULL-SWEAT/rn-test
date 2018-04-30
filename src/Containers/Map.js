@@ -12,9 +12,11 @@ export default class Map extends Component {
       longitude: null,
       error: null,
       markers: [],
-      markersCount: 0
+      region: {
+      },
     }
     this.onMapPress = this.onMapPress.bind(this);
+    this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
   }
 
   static navigationOptions = {
@@ -30,8 +32,13 @@ export default class Map extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log(position)
         this.setState({
+          region: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          },
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           error: null,
@@ -54,6 +61,10 @@ export default class Map extends Component {
     })
   }
 
+  onRegionChangeComplete(region) {
+    this.setState({ region });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -61,13 +72,9 @@ export default class Map extends Component {
           (
             <MapView
               style={styles.map}
-              region={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude,
-                latitudeDelta: 0.015,
-                longitudeDelta: 0.0121,
-              }}
+              region={ this.state.region }
               onPress={this.onMapPress}
+              onRegionChangeComplete={this.onRegionChangeComplete}
             >
 
               <Marker
