@@ -2,29 +2,29 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
-
-// Create a graph request asking for user information with a callback to handle the response.
-// const infoRequest = new GraphRequest(
-//   '/me',
-//   null,
-//   this._responseInfoCallback,
-// )
+import firebase from 'react-native-firebase'
 
 export default class FacebookLogin extends Component {
   render() {
-
-    const infoRequest = new GraphRequest(
-      '/me',
-      null,
-      this._responseInfoCallback,
-    )
+    // const infoRequest = new GraphRequest(
+    //   '/me',
+    //   null,
+    //   this._responseInfoCallback,
+    // )
 
     return (
       <View>
-        <LoginButton
+        <TouchableOpacity style={styles.btnFb}
+          onPress={this.onLoginOrRegister}
+        >
+          <Text style={styles.btnTxt}>Facebook login</Text>
+        </TouchableOpacity>
+
+        {/* <LoginButton
           readPermissions={['public_profile', 'email', 'user_location']}
           onLoginFinished={
             (error, result) => {
@@ -38,9 +38,33 @@ export default class FacebookLogin extends Component {
               }
             }
           }
-          onLogoutFinished={() => window.alert("User logged out")}/>
+          onLogoutFinished={() => window.alert("User logged out")} /> */}
       </View>
     );
+  }
+
+  onLoginOrRegister = () => {
+    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+      .then((result) => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user cancelled the request'))
+        }
+        // Retrieve the access token
+        return AccessToken.getCurrentAccessToken()
+      })
+      .then((data) => {
+        // Create a new Firebase credential with the token
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
+
+        // Login with the credential
+        return firebase.auth().signInAndRetrieveDataWithCredential(credential)
+      })
+      .then((user) => {
+      })
+      .catch((error) => {
+        const { code, message } = error
+        window.alert(message)
+      })
   }
 
   //Create response callback.
@@ -64,4 +88,11 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  btnFb: {
+    alignItems: 'center',
+    backgroundColor: '#3B5998',
+    padding: 10,
+    margin: 5
+  },
+  btnTxt: { color: '#FFF'},
 });
