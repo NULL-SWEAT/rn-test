@@ -14,8 +14,7 @@ export default class Map extends Component {
       markers: [],
       region: {},
     }
-    this.onMapPress = this.onMapPress.bind(this);
-    this.onRegionChangeComplete = this.onRegionChangeComplete.bind(this);
+    this.onMapPress = this.onMapPress.bind(this)
   }
 
   static navigationOptions = {
@@ -66,10 +65,6 @@ export default class Map extends Component {
     })
   }
 
-  onRegionChangeComplete(region) {
-    this.setState({ region });
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -77,9 +72,8 @@ export default class Map extends Component {
           (
             <MapView
               style={styles.map}
-              region={ this.state.region }
+              initialRegion={ this.state.region }
               onPress={this.onMapPress}
-              onRegionChangeComplete={this.onRegionChangeComplete}
             >
 
               <Marker
