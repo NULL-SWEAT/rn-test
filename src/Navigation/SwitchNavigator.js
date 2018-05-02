@@ -31,7 +31,11 @@ const AuthStack = StackNavigator({
 const RootStack = StackNavigator({
   Main: { screen: AppStack },
   MapModal: { screen: MapModal },
-}, { headerMode: 'none' }
+},
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
 )
 
 export default SwitchNavigator(

@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
 
 export default class MapModal extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       title: '',
       description: '',
     }
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -32,13 +33,20 @@ export default class MapModal extends Component {
           <Text>Descartar</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity style={styles.btn}
-          onPress={this.props.newMarker(this.state.title, this.state.description)}
+        <TouchableOpacity style={styles.btn}
+          onPress={this.saveMarker.bind(this)}
         >
           <Text>Salvar</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
     )
+  }
+
+  saveMarker() {
+    if (this.state.title !== '' && this.state.description !== '') {
+      this.props.navigation.state.params.newMarker(this.props.navigation.state.params.coordinate, this.state.title, this.state.description)
+      this.props.navigation.goBack()
+    }
   }
 }
 
