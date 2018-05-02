@@ -27,17 +27,19 @@ export default class MapModal extends Component {
           value={this.state.description}
         />
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.goBack()}
-        >
-          <Text>Descartar</Text>
-        </TouchableOpacity>
+        <View style={styles.btnRow}>
+          <TouchableOpacity style={styles.btn}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Text>Descartar</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.saveMarker.bind(this)}
-        >
-          <Text>Salvar</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.btn}
+            onPress={this.saveMarker.bind(this)}
+          >
+            <Text>Salvar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -65,6 +67,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#AAAAFF',
     padding: 10,
-    margin: 5
+    margin: 5,
+  },
+  btnRow: {
+    flex: 0,
+    flexDirection: 'row',
   }
 })
