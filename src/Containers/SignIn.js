@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, AsyncStorage, TouchableOpacity, Text, TextInput, ActivityIndicator } from 'react-native'
+import { View, StyleSheet, Text, TextInput, ActivityIndicator, Image } from 'react-native'
 import firebase from 'react-native-firebase'
-
 import FacebookLogin from './FacebookLogin'
+import TransparentButton from '../Components/TransparentButton'
+import { ApplicationStyles, Metrics, Images, Colors } from '../Styles'
 
 export default class SignIn extends Component {
   constructor() {
@@ -14,6 +15,7 @@ export default class SignIn extends Component {
 
   static navigationOptions = {
     title: 'Login',
+    header: null,
   }
 
   componentDidMount() {
@@ -31,7 +33,7 @@ export default class SignIn extends Component {
 
   render() {
     if(this.state.loading) return(
-      <View style={styles.container}>
+      <View style={styles.mainContainer}>
         <ActivityIndicator size="large" />
       </View>
     )
@@ -41,35 +43,45 @@ export default class SignIn extends Component {
     )
 
     return (
-      <View style={styles.container}>
-        <Text>Email:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(email) => this.setState({ email })}
-          value={this.state.email}
-        />
+      <View style={styles.mainContainer}>
+        <View style={styles.centered}>
+          <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
 
-        <Text>Senha:</Text>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({ password })}
-          value={this.state.password}
-        />
+          <Text style={styles.logo}>LOGO AQUI</Text>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.emailLogin}
-        >
-          <Text>Entrar</Text>
-        </TouchableOpacity>
+          <FacebookLogin />
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('SignUp')}
-        >
-          <Text>Registrar-se</Text>
-        </TouchableOpacity>
+          {/* <Text style={styles.sectionText}>Email:</Text> */}
+          <TextInput
+            style={styles.input}
+            onChangeText={(email) => this.setState({ email })}
+            placeholder={'Email'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
 
-        <FacebookLogin />
+          {/* <Text style={styles.sectionText}>Senha:</Text> */}
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={(password) => this.setState({ password })}
+            placeholder={'Senha'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
+
+          <TransparentButton
+            onPress={this.emailLogin.bind(this)}
+            text='Entrar'
+          />
+
+          <TransparentButton
+            onPress={() => this.props.navigation.navigate('SignUp')}
+            text='Registrar-se'
+          />
+        </View>
       </View>
     )
   }
@@ -85,28 +97,31 @@ export default class SignIn extends Component {
       .catch((error) => {
         const { code, message } = error
         window.alert(message)
-        // For details of error codes, see the docs
-        // The message contains the default Firebase string
-        // representation of the error
       })
   }
 }
 
 const styles = StyleSheet.create({
+  ...ApplicationStyles.screen,
   container: {
+    paddingBottom: Metrics.baseMargin
+  },
+  centered: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
-    height: 45,
+    color: Colors.white,
+    backgroundColor: Colors.coal,
+    height: 40,
     width: 250,
-    margin: 5
-  },
-  btn: {
-    alignItems: 'center',
-    backgroundColor: '#AAAAFF',
+    margin: 5,
     padding: 10,
-    margin: 5
+  },
+  logo: {
+    color: Colors.white,
+    fontSize: 30,
+    margin: 35,
   }
 })

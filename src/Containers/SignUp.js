@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text, TextInput } from 'react-native'
+import { View, StyleSheet, Text, TextInput, Image } from 'react-native'
 import firebase from 'react-native-firebase'
+import TransparentButton from '../Components/TransparentButton'
+import { ApplicationStyles, Metrics, Images, Colors } from '../Styles'
 
 export default class SignIn extends Component {
   constructor() {
@@ -15,33 +17,43 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Nome:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(name) => this.setState({ name })}
-          value={this.state.name}
-        />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
 
-        <Text>Email:</Text>
+        {/* <Text>Nome:</Text> */}
+        <TextInput
+            style={styles.input}
+            onChangeText={(name) => this.setState({ name })}
+            placeholder={'Nome de usuário'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
+
+        {/* <Text>Email:</Text> */}
         <TextInput
           style={styles.input}
           onChangeText={(email) => this.setState({ email })}
-          value={this.state.email}
+          placeholder={'E-mail'}
+          placeholderTextColor={Colors.white}
+          underlineColorAndroid={Colors.transparent}
+          selectionColor={Colors.fire}
         />
 
-        <Text>Senha:</Text>
+        {/* <Text>Senha:</Text> */}
         <TextInput
           style={styles.input}
           secureTextEntry={true}
           onChangeText={(password) => this.setState({ password })}
-          value={this.state.password}
+          placeholder={'Senha'}
+          placeholderTextColor={Colors.white}
+          underlineColorAndroid={Colors.transparent}
+          selectionColor={Colors.fire}
         />
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.emailSignUp}
-        >
-          <Text>Registrar</Text>
-        </TouchableOpacity>
+        <TransparentButton
+          onPress={this.emailSignUp.bind(this)}
+          text='Registrar-se'
+        />
       </View>
     )
   }
@@ -63,20 +75,18 @@ export default class SignIn extends Component {
 }
 
 const styles = StyleSheet.create({
+  ...ApplicationStyles.screen,
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
-    height: 45,
+    color: Colors.white,
+    backgroundColor: Colors.coal,
+    height: 40,
     width: 250,
-    marginBottom: 15
-  },
-  btn: {
-    alignItems: 'center',
-    backgroundColor: '#AAAAFF',
+    margin: 5,
     padding: 10,
-    margin: 5
-  }
+  },
 })

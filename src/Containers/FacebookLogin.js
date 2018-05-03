@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 import firebase from 'react-native-firebase'
+
+import { Fonts, Colors, Metrics } from '../Styles'
 
 export default class FacebookLogin extends Component {
   render() {
@@ -18,10 +15,10 @@ export default class FacebookLogin extends Component {
 
     return (
       <View>
-        <TouchableOpacity style={styles.btnFb}
+        <TouchableOpacity style={styles.button}
           onPress={this.onLoginOrRegister}
         >
-          <Text style={styles.btnTxt}>Facebook login</Text>
+          <Text style={styles.buttonText}>Entrar com o Facebook</Text>
         </TouchableOpacity>
 
         {/* <LoginButton
@@ -88,11 +85,20 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
-  btnFb: {
-    alignItems: 'center',
-    backgroundColor: '#3B5998',
-    padding: 10,
-    margin: 5
+  button: {
+    height: 40,
+    borderRadius: 20,
+    marginHorizontal: Metrics.section,
+    marginVertical: Metrics.baseMargin,
+    backgroundColor: Colors.facebook,
+    justifyContent: 'center',
+    padding: 15,
   },
-  btnTxt: { color: '#FFF'},
+  buttonText: {
+    color: Colors.white,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    marginVertical: Metrics.baseMargin
+  }
 });
