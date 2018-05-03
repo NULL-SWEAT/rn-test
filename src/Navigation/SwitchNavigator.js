@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StackNavigator, SwitchNavigator } from 'react-navigation';
+import { StackNavigator, SwitchNavigator } from 'react-navigation'
 
 import AuthLoadingScreen from '../Containers/AuthLoadingScreen'
 import SignIn from '../Containers/SignIn'
@@ -20,13 +20,17 @@ const AppStack = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'screen',
-  // initialRouteName: 'Home',
-});
+})
 
 const AuthStack = StackNavigator({
   SignIn: { screen: SignIn },
   SignUp: { screen: SignUp }
-});
+}, {
+  navigationOptions: {
+    headerTintColor: '#FFF',
+    headerTransparent: true,
+  },
+})
 
 const RootStack = StackNavigator({
   Main: { screen: AppStack },
@@ -47,4 +51,4 @@ export default SwitchNavigator(
   {
     initialRouteName: 'AuthLoading',
   }
-);
+)
