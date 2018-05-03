@@ -58,4 +58,4 @@ buck-out/
 # Firebase login information
 google-services.json
 
-.vscode/settings.json
+.vscode/

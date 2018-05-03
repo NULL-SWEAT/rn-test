@@ -5,7 +5,10 @@ import {
   StatusBar,
   StyleSheet,
   View,
-} from 'react-native';
+} from 'react-native'
+import firebase from 'react-native-firebase'
+
+// TODO: MOVE CHECK AUTH STATE FROM SignIn TO HERE ! ! !
 
 export default class AuthLoadingScreen extends Component {
   constructor(props) {
