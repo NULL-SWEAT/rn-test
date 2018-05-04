@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TextInput, ActivityIndicator, Image } from 'react-native'
+import { View, StyleSheet, TextInput, ActivityIndicator, Image } from 'react-native'
 import firebase from 'react-native-firebase'
 import FacebookLogin from './FacebookLogin'
 import TransparentButton from '../Components/TransparentButton'
-import { ApplicationStyles, Metrics, Images, Colors } from '../Styles'
+import Separator from '../Components/Separator'
+import { ApplicationStyles, Metrics, Images, Colors, Fonts } from '../Styles'
+
+import { Container, Content, Button, Text, Footer } from 'native-base'
 
 export default class SignIn extends Component {
   constructor() {
@@ -33,9 +36,9 @@ export default class SignIn extends Component {
 
   render() {
     if(this.state.loading) return(
-      <View style={styles.mainContainer}>
+      <Container style={styles.mainContainer}>
         <ActivityIndicator size="large" />
-      </View>
+      </Container>
     )
 
     if(this.state.user) return(
@@ -43,15 +46,16 @@ export default class SignIn extends Component {
     )
 
     return (
-      <View style={styles.mainContainer}>
-        <View style={styles.centered}>
-          <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+      <Container>
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+        <Content contentContainerStyle={styles.centered}>
 
           <Text style={styles.logo}>LOGO AQUI</Text>
 
           <FacebookLogin />
 
-          {/* <Text style={styles.sectionText}>Email:</Text> */}
+          <Separator text='OU' />
+
           <TextInput
             style={styles.input}
             onChangeText={(email) => this.setState({ email })}
@@ -61,7 +65,6 @@ export default class SignIn extends Component {
             selectionColor={Colors.fire}
           />
 
-          {/* <Text style={styles.sectionText}>Senha:</Text> */}
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -72,17 +75,33 @@ export default class SignIn extends Component {
             selectionColor={Colors.fire}
           />
 
-          <TransparentButton
+          {/* <TransparentButton
             onPress={this.emailLogin.bind(this)}
             text='Entrar'
-          />
+          /> */}
+          <Button bordered light
+            style={styles.button}
+            onPress={this.emailLogin.bind(this)}
+          >
+            <Text style={styles.buttonText}>Entrar</Text>
+          </Button>
+        </Content>
 
-          <TransparentButton
-            onPress={() => this.props.navigation.navigate('SignUp')}
-            text='Registrar-se'
-          />
-        </View>
-      </View>
+        <View style={{ backgroundColor: Colors.transparent, flexDirection: 'column' }}>
+            <Button transparent light full
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('SignUp')}
+            >
+              <Text style={styles.buttonText}>Inscrever-se</Text>
+            </Button>
+            <Button transparent light full
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('PasswordReset')}
+            >
+              <Text style={styles.buttonText}>Redefinir Senha</Text>
+            </Button>
+          </View>
+      </Container>
     )
   }
 
@@ -111,17 +130,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    alignSelf: 'auto',
+  },
+  buttonText: {
+    fontSize: Fonts.size.regular,
+  },
   input: {
     color: Colors.white,
     backgroundColor: Colors.coal,
     height: 40,
-    width: 250,
-    margin: 5,
+    width: '80%',
+    margin: Metrics.baseMargin,
     padding: 10,
   },
   logo: {
     color: Colors.white,
-    fontSize: 30,
+    fontSize: Fonts.size.h1,
     margin: 35,
-  }
+  },
 })

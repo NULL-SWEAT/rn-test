@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TextInput, Image } from 'react-native'
+import { View, StyleSheet, TextInput, Image, ImageBackground } from 'react-native'
 import firebase from 'react-native-firebase'
-import TransparentButton from '../Components/TransparentButton'
-import { ApplicationStyles, Metrics, Images, Colors } from '../Styles'
+import { ApplicationStyles, Metrics, Images, Colors, Fonts } from '../Styles'
+import { Button, Text } from 'native-base'
 
 export default class SignIn extends Component {
   constructor() {
@@ -50,10 +50,12 @@ export default class SignIn extends Component {
           selectionColor={Colors.fire}
         />
 
-        <TransparentButton
+        <Button transparent light
+          style={{ alignSelf: 'auto' }}
           onPress={this.emailSignUp.bind(this)}
-          text='Registrar-se'
-        />
+        >
+          <Text style={{ fontSize: Fonts.size.regular }}>Registrar-se</Text>
+        </Button>
       </View>
     )
   }
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     backgroundColor: Colors.coal,
     height: 40,
-    width: 250,
+    width: '80%',
     margin: 5,
     padding: 10,
   },

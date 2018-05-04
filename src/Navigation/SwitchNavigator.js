@@ -4,6 +4,7 @@ import { StackNavigator, SwitchNavigator } from 'react-navigation'
 import AuthLoadingScreen from '../Containers/AuthLoadingScreen'
 import SignIn from '../Containers/SignIn'
 import SignUp from '../Containers/SignUp'
+import PasswordReset from '../Containers/PasswordReset'
 
 import Camera from '../Containers/Camera'
 import Home from '../Containers/Home'
@@ -24,7 +25,8 @@ const AppStack = StackNavigator({
 
 const AuthStack = StackNavigator({
   SignIn: { screen: SignIn },
-  SignUp: { screen: SignUp }
+  SignUp: { screen: SignUp },
+  PasswordReset: { screen: PasswordReset },
 }, {
   navigationOptions: {
     headerTintColor: '#FFF',

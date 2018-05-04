@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 import firebase from 'react-native-firebase'
+import { Button, Text, Icon } from 'native-base'
 
 import { Fonts, Colors, Metrics } from '../Styles'
 
@@ -15,28 +16,33 @@ export default class FacebookLogin extends Component {
 
     return (
       <View>
-        <TouchableOpacity style={styles.button}
+        {/* <TouchableOpacity style={styles.button}
           onPress={this.onLoginOrRegister}
         >
           <Text style={styles.buttonText}>Entrar com o Facebook</Text>
-        </TouchableOpacity>
-
-        {/* <LoginButton
-          readPermissions={['public_profile', 'email', 'user_location']}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                window.alert("Login failed with error: " + result.error);
-              } else if (result.isCancelled) {
-                window.alert("Login was cancelled");
-              } else {
-                window.alert("Login was successful with permissions: " + result.grantedPermissions)
-                new GraphRequestManager().addRequest(this.infoRequest).start();
-              }
-            }
-          }
-          onLogoutFinished={() => window.alert("User logged out")} /> */}
+        </TouchableOpacity> */}
+        <Button rounded style={styles.button}
+          onPress={this.onLoginOrRegister}
+        >
+          {/* <Icon name='facebook-square' type='FontAwesome' /> */}
+          <Text>Entrar com o Facebook</Text>
+        </Button>
       </View>
+        // <LoginButton
+        //   readPermissions={['public_profile', 'email', 'user_location']}
+        //   onLoginFinished={
+        //     (error, result) => {
+        //       if (error) {
+        //         window.alert("Login failed with error: " + result.error);
+        //       } else if (result.isCancelled) {
+        //         window.alert("Login was cancelled");
+        //       } else {
+        //         window.alert("Login was successful with permissions: " + result.grantedPermissions)
+        //         new GraphRequestManager().addRequest(this.infoRequest).start();
+        //       }
+        //     }
+        //   }
+        //   onLogoutFinished={() => window.alert("User logged out")} />
     );
   }
 
@@ -75,30 +81,17 @@ export default class FacebookLogin extends Component {
 }
 
 const styles = StyleSheet.create({
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
   button: {
-    height: 40,
-    borderRadius: 20,
+    backgroundColor: Colors.facebook,
     marginHorizontal: Metrics.section,
     marginVertical: Metrics.baseMargin,
-    backgroundColor: Colors.facebook,
-    justifyContent: 'center',
-    padding: 15,
+    paddingHorizontal: Metrics.section,
   },
   buttonText: {
     color: Colors.white,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: Fonts.size.medium,
-    marginVertical: Metrics.baseMargin
+    marginVertical: Metrics.baseMargin,
   }
 });
