@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import firebase from 'react-native-firebase'
+import { Container, Content, Button, Text, Footer, Icon } from 'native-base'
 
 import ShareButton from '../Components/ShareButton'
+import { ApplicationStyles, Metrics, Colors } from '../Styles';
 
 export default class Home extends Component {
   static navigationOptions = {
@@ -16,42 +18,51 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
+        <Content contentContainerStyle={styles.centered}>
 
-        {/* <Text>{JSON.stringify(this.state.currentUser)}</Text> */}
-        <Text>Email: {this.state.currentUser.email}</Text>
-        <Text>Nome: {this.state.currentUser.displayName}</Text>
+          <Text style={{ color: Colors.white }}>Email: {this.state.currentUser.email}</Text>
+          <Text style={{ color: Colors.white }}>Nome: {this.state.currentUser.displayName}</Text>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('Camera')}
-        >
-          <Text>Camera</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Camera')}
+          >
+            <Icon style={styles.btnIcons} name='camera' />
+            <Text style={styles.buttonText}>Camera</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('Map')}
-        >
-          <Text>Map</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Map')}
+          >
+            <Icon style={styles.btnIcons} name='map' />
+            <Text style={styles.buttonText}>Map</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.firebaseSignOut}
-        >
-          <Text>Sign out</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={this.firebaseSignOut}
+          >
+            <Icon style={styles.btnIcons} name='exit' />
+            <Text style={styles.buttonText}>Sign out</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.deleteAcc}
-        >
-          <Text>Deletar conta</Text>
-        </TouchableOpacity>
+          <Button block danger iconLeft
+            style={styles.button}
+            onPress={this.deleteAcc.bind(this)}
+          >
+            <Icon style={styles.btnIcons} name='trash' />
+            <Text style={styles.buttonText}>Deletar conta</Text>
+          </Button>
 
-        <ShareButton
-          message={'Testando compartilhamento...\nhttps://origammi.land'}
-          title='Título'
-          url='https://origammi.land'
-        />
-      </View>
+          <ShareButton
+            message={'Testando compartilhamento.'}
+            title='Título'
+            url='https://origammi.land'
+          />
+        </Content>
+      </Container>
     )
   }
 
@@ -67,13 +78,22 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+  ...ApplicationStyles.screen,
   container: {
     flex: 1
   },
-  btn: {
+  centered: {
+    flex: 1,
     alignItems: 'center',
-    backgroundColor: '#AAAAFF',
-    padding: 10,
-    margin: 5
+    backgroundColor: Colors.coal,
+  },
+  btnIcons: {
+    position: 'absolute',
+    left: 0
+  },
+  button: {
+    alignSelf: 'auto',
+    width: '75%',
+    marginVertical: Metrics.marginVertical,
   }
 })

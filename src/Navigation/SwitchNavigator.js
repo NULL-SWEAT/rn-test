@@ -12,6 +12,7 @@ import Map from '../Containers/Map'
 import CameraGallery from '../Containers/CameraGallery'
 
 import MapModal from '../Components/MapModal'
+import { Colors } from '../Styles';
 
 const AppStack = StackNavigator({
   Home: { screen: Home },
@@ -22,8 +23,10 @@ const AppStack = StackNavigator({
   // Default config for all screens
   headerMode: 'screen',
   navigationOptions: {
+    headerTintColor: Colors.white,
+    headerStyle: { backgroundColor: Colors.banner },
     cardStyle: {
-      backgroundColor: 'rgba(0,0,0,0)',
+      backgroundColor: Colors.transparent,
       opacity: 1,
     },
   }
@@ -35,11 +38,11 @@ const AuthStack = StackNavigator({
   PasswordReset: { screen: PasswordReset },
 }, {
   navigationOptions: {
-    headerTintColor: '#FFF',
+    headerTintColor: Colors.white,
     headerTransparent: true,
     },
     cardStyle: {
-      backgroundColor: 'rgba(0,0,0,0)',
+      backgroundColor: Colors.transparent,
       opacity: 1,
     },
 })
