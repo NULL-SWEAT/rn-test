@@ -21,7 +21,7 @@ export default class SignIn extends Component {
 
         {/* <Text>Nome:</Text> */}
         <TextInput
-            style={styles.input}
+            style={styles.authInputField}
             onChangeText={(name) => this.setState({ name })}
             placeholder={'Nome de usuário'}
             placeholderTextColor={Colors.white}
@@ -31,7 +31,7 @@ export default class SignIn extends Component {
 
         {/* <Text>Email:</Text> */}
         <TextInput
-          style={styles.input}
+          style={styles.authInputField}
           onChangeText={(email) => this.setState({ email })}
           placeholder={'E-mail'}
           placeholderTextColor={Colors.white}
@@ -41,7 +41,7 @@ export default class SignIn extends Component {
 
         {/* <Text>Senha:</Text> */}
         <TextInput
-          style={styles.input}
+          style={styles.authInputField}
           secureTextEntry={true}
           onChangeText={(password) => this.setState({ password })}
           placeholder={'Senha'}
@@ -82,13 +82,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  input: {
-    color: Colors.white,
-    backgroundColor: Colors.coal,
-    height: 40,
-    width: '80%',
-    margin: 5,
-    padding: 10,
   },
 })

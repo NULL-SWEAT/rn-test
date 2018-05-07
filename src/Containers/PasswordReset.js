@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TextInput, Image, ImageBackground } from 'react-native'
 import firebase from 'react-native-firebase'
 import { Button, Text } from 'native-base'
-import { ApplicationStyles, Images, Colors, Fonts } from '../Styles'
+import { ApplicationStyles, Images, Colors, Fonts, Metrics } from '../Styles'
 
 export default class PasswordReset extends Component {
   constructor() {
@@ -20,7 +20,7 @@ export default class PasswordReset extends Component {
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
 
         <TextInput
-          style={styles.input}
+          style={styles.authInputField}
           onChangeText={(email) => this.setState({ email })}
           placeholder={'E-mail'}
           placeholderTextColor={Colors.white}
@@ -57,13 +57,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  input: {
-    color: Colors.white,
-    backgroundColor: Colors.coal,
-    height: 40,
-    width: '80%',
-    margin: 5,
-    padding: 10,
   },
 })

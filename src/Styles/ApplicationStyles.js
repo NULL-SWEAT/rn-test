@@ -47,6 +47,14 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    authInputField: {
+      color: Colors.white,
+      backgroundColor: Colors.customBlue,
+      height: 40,
+      width: '80%',
+      margin: Metrics.baseMargin,
+      padding: 10,
     }
   }
 }

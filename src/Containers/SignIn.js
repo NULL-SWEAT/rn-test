@@ -57,7 +57,7 @@ export default class SignIn extends Component {
           <Separator text='OU' />
 
           <TextInput
-            style={styles.input}
+            style={styles.authInputField}
             onChangeText={(email) => this.setState({ email })}
             placeholder={'Email'}
             placeholderTextColor={Colors.white}
@@ -66,7 +66,7 @@ export default class SignIn extends Component {
           />
 
           <TextInput
-            style={styles.input}
+            style={styles.authInputField}
             secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
             placeholder={'Senha'}
@@ -136,17 +136,9 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: Fonts.size.regular,
   },
-  input: {
-    color: Colors.white,
-    backgroundColor: Colors.coal,
-    height: 40,
-    width: '80%',
-    margin: Metrics.baseMargin,
-    padding: 10,
-  },
   logo: {
     color: Colors.white,
-    fontSize: Fonts.size.h1,
+    fontSize: Fonts.size.h2,
     margin: 35,
   },
 })
