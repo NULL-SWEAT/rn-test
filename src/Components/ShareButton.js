@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, Share } from 'react-native'
+import { View, Share, Platform } from 'react-native'
 import { Button, Icon, Text } from 'native-base';
 
 import { Fonts, Colors, Metrics } from '../Styles'
@@ -13,8 +13,10 @@ export default class ShareButton extends Component {
   }
 
   share() {
+    const msg = Platform.OS === 'android' ? this.props.message + '\n' + this.props.url : this.props.message
+
     Share.share({
-      message: this.props.message,
+      message: msg,
       title: this.props.title,
       url: this.props.url,
     }).catch((err) => {
