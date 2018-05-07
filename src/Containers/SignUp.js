@@ -17,7 +17,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
 
         {/* <Text>Nome:</Text> */}
         <TextInput

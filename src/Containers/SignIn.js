@@ -47,7 +47,7 @@ export default class SignIn extends Component {
 
     return (
       <Container>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
         <Content contentContainerStyle={styles.centered}>
 
           <Text style={styles.logo}>LOGO AQUI</Text>

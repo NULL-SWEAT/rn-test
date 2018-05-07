@@ -17,7 +17,7 @@ export default class PasswordReset extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
 
         <TextInput
           style={styles.input}
