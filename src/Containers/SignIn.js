@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TextInput, ActivityIndicator, Image } from 'react-native'
+import { View, StyleSheet, TextInput, ActivityIndicator, Image, KeyboardAvoidingView } from 'react-native'
 import firebase from 'react-native-firebase'
 import FacebookLogin from './FacebookLogin'
 import TransparentButton from '../Components/TransparentButton'
@@ -17,7 +17,6 @@ export default class SignIn extends Component {
   }
 
   static navigationOptions = {
-    title: 'Login',
     header: null,
   }
 
@@ -85,9 +84,8 @@ export default class SignIn extends Component {
           >
             <Text style={styles.buttonText}>Entrar</Text>
           </Button>
-        </Content>
 
-        <View style={{ backgroundColor: Colors.transparent, flexDirection: 'column' }}>
+          <View style={{ flexDirection: 'column', marginTop: Metrics.doubleSection }}>
             <Button transparent light full
               style={styles.button}
               onPress={() => this.props.navigation.navigate('SignUp')}
@@ -101,6 +99,7 @@ export default class SignIn extends Component {
               <Text style={styles.buttonText}>Redefinir Senha</Text>
             </Button>
           </View>
+        </Content>
       </Container>
     )
   }
