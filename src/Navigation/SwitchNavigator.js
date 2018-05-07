@@ -21,6 +21,12 @@ const AppStack = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'screen',
+  navigationOptions: {
+    cardStyle: {
+      backgroundColor: 'rgba(0,0,0,0)',
+      opacity: 1,
+    },
+  }
 })
 
 const AuthStack = StackNavigator({
@@ -31,7 +37,11 @@ const AuthStack = StackNavigator({
   navigationOptions: {
     headerTintColor: '#FFF',
     headerTransparent: true,
-  },
+    },
+    cardStyle: {
+      backgroundColor: 'rgba(0,0,0,0)',
+      opacity: 1,
+    },
 })
 
 const RootStack = StackNavigator({
