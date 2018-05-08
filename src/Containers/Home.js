@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import firebase from 'react-native-firebase'
 import { Container, Content, Button, Text, Footer, Icon } from 'native-base'
 
@@ -57,7 +57,7 @@ export default class Home extends Component {
           </Button>
 
           <ShareButton
-            message={'Testando compartilhamento.'}
+            message='Testando compartilhamento.'
             title='Título'
             url='https://origammi.land'
           />

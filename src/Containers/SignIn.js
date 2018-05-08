@@ -35,7 +35,7 @@ export default class SignIn extends Component {
 
   render() {
     if(this.state.loading) return(
-      <Container style={styles.mainContainer}>
+      <Container style={styles.centered}>
         <ActivityIndicator size="large" />
       </Container>
     )
