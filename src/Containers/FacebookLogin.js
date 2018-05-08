@@ -3,10 +3,21 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { LoginButton, AccessToken, LoginManager, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 import firebase from 'react-native-firebase'
 import { Button, Text, Icon } from 'native-base'
-
+import Loader from '../Components/Loader'
 import { Fonts, Colors, Metrics } from '../Styles'
 
 export default class FacebookLogin extends Component {
+  constructor() {
+    super()
+    this.state = {
+      loading: false,
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({ loading: false})
+  }
+
   render() {
     // const infoRequest = new GraphRequest(
     //   '/me',
@@ -16,6 +27,7 @@ export default class FacebookLogin extends Component {
 
     return (
       <View>
+        <Loader loading={this.state.loading} />
         {/* <TouchableOpacity style={styles.button}
           onPress={this.onLoginOrRegister}
         >
@@ -47,6 +59,7 @@ export default class FacebookLogin extends Component {
   }
 
   onLoginOrRegister = () => {
+    this.setState({ loading: true })
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
       .then((result) => {
         if (result.isCancelled) {
