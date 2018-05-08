@@ -3,11 +3,12 @@ import { View, StyleSheet, TextInput, Image, ImageBackground } from 'react-nativ
 import firebase from 'react-native-firebase'
 import { ApplicationStyles, Images, Colors, Fonts } from '../Styles'
 import { Button, Text } from 'native-base'
+import Loader from '../Components/Loader'
 
 export default class SignIn extends Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = { loading: false }
   }
 
   static navigationOptions = {
@@ -17,6 +18,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Loader loading={this.state.loading} />
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
 
         {/* <Text>Nome:</Text> */}
@@ -61,10 +63,14 @@ export default class SignIn extends Component {
   }
 
   emailSignUp = async () => {
+    this.setState({ loading: true })
     const { email, password } = this.state
     try {
       const { user } = await firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
       if (this.state.name) await user.updateProfile({ displayName: this.state.name })
+
+      this.setState({ loading: false })
+
     } catch (error) {
       const { code, message } = error
       window.alert(message)
