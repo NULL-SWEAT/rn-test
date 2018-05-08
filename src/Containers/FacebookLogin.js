@@ -63,6 +63,7 @@ export default class FacebookLogin extends Component {
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
       .then((result) => {
         if (result.isCancelled) {
+          this.setState({ loading: false })
           return Promise.reject(new Error('The user cancelled the request'))
         }
         // Retrieve the access token
