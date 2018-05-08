@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, TextInput, Image, ImageBackground } from 'react-native'
 import firebase from 'react-native-firebase'
-import { ApplicationStyles, Metrics, Images, Colors, Fonts } from '../Styles'
+import { ApplicationStyles, Images, Colors, Fonts } from '../Styles'
 import { Button, Text } from 'native-base'
 
 export default class SignIn extends Component {
@@ -21,13 +21,13 @@ export default class SignIn extends Component {
 
         {/* <Text>Nome:</Text> */}
         <TextInput
-            style={styles.authInputField}
-            onChangeText={(name) => this.setState({ name })}
-            placeholder={'Nome de usuário'}
-            placeholderTextColor={Colors.white}
-            underlineColorAndroid={Colors.transparent}
-            selectionColor={Colors.fire}
-          />
+          style={styles.authInputField}
+          onChangeText={(name) => this.setState({ name })}
+          placeholder={'Nome de usuário'}
+          placeholderTextColor={Colors.white}
+          underlineColorAndroid={Colors.transparent}
+          selectionColor={Colors.fire}
+        />
 
         {/* <Text>Email:</Text> */}
         <TextInput
@@ -60,19 +60,15 @@ export default class SignIn extends Component {
     )
   }
 
-  emailSignUp = () => {
+  emailSignUp = async () => {
     const { email, password } = this.state
-    firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
-      .then((user) => {
-        if(this.state.name) user.updateProfile({ displayName: this.state.name })
-        // If you need to do anything with the user, do it here
-        // The user will be logged in automatically by the
-        // `onAuthStateChanged` listener we set up in App.js earlier
-      })
-      .catch((error) => {
-        const { code, message } = error
-        window.alert(message)
-      })
+    try {
+      const { user } = await firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
+      if (this.state.name) await user.updateProfile({ displayName: this.state.name })
+    } catch (error) {
+      const { code, message } = error
+      window.alert(message)
+    }
   }
 }
 

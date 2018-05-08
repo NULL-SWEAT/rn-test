@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TextInput, ActivityIndicator, Image, KeyboardAvoidingView } from 'react-native'
+import { View, StyleSheet, TextInput, Image, KeyboardAvoidingView } from 'react-native'
 import firebase from 'react-native-firebase'
 import FacebookLogin from './FacebookLogin'
 import TransparentButton from '../Components/TransparentButton'
 import Separator from '../Components/Separator'
+import Loader from '../Components/Loader'
 import { ApplicationStyles, Metrics, Images, Colors, Fonts } from '../Styles'
 
 import { Container, Content, Button, Text, Footer } from 'native-base'
@@ -34,11 +35,6 @@ export default class SignIn extends Component {
   }
 
   render() {
-    if(this.state.loading) return(
-      <Container style={styles.centered}>
-        <ActivityIndicator size="large" />
-      </Container>
-    )
 
     if(this.state.user) return(
       this.props.navigation.navigate('App')
@@ -46,6 +42,7 @@ export default class SignIn extends Component {
 
     return (
       <Container>
+        <Loader loading={this.state.loading} />
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
         <Content contentContainerStyle={styles.centered}>
 
@@ -104,18 +101,14 @@ export default class SignIn extends Component {
     )
   }
 
-  emailLogin = () => {
+  emailLogin = async () => {
     const { email, password } = this.state
-    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
-      .then((user) => {
-        // If you need to do anything with the user, do it here
-        // The user will be logged in automatically by the
-        // `onAuthStateChanged` listener we set up in App.js earlier
-      })
-      .catch((error) => {
-        const { code, message } = error
-        window.alert(message)
-      })
+    try {
+      const { user } = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
+    } catch (error) {
+      const { code, message } = error
+      window.alert(message)
+    }
   }
 }
 
