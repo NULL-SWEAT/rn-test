@@ -7,7 +7,7 @@ import { Fonts, Colors, Metrics } from '../Styles'
 
 export default class ShareButton extends Component {
   static propTypes = {
-    message: PropTypes.String,
+    message: PropTypes.string,
     title: PropTypes.string,
     url: PropTypes.string,
   }
