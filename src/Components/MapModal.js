@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native'
 import { Container, Content, Button, Text, Footer, FooterTab, Col } from 'native-base'
-import { Fonts, Colors } from '../Styles'
+import { ApplicationStyles, Fonts, Colors } from '../Styles'
 
 export default class MapModal extends Component {
   constructor(props) {
@@ -69,11 +69,7 @@ export default class MapModal extends Component {
 }
 
 const styles = StyleSheet.create({
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  ...ApplicationStyles.screen,
   input: {
     height: 45,
     width: '75%',

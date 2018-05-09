@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TextInput, Image, ImageBackground } from 'react-native'
 import firebase from 'react-native-firebase'
 import { ApplicationStyles, Images, Colors, Fonts } from '../Styles'
-import { Button, Text } from 'native-base'
+import { Container, Content, Button, Text } from 'native-base'
 import Loader from '../Components/Loader'
 
 export default class SignIn extends Component {
@@ -17,48 +17,47 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Loader loading={this.state.loading} />
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
+      <Container>
+        <Content contentContainerStyle={styles.centered}>
+          <Loader loading={this.state.loading} />
+          <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
 
-        {/* <Text>Nome:</Text> */}
-        <TextInput
-          style={styles.authInputField}
-          onChangeText={(name) => this.setState({ name })}
-          placeholder={'Nome de usuário'}
-          placeholderTextColor={Colors.white}
-          underlineColorAndroid={Colors.transparent}
-          selectionColor={Colors.fire}
-        />
+          <TextInput
+            style={styles.authInputField}
+            onChangeText={(name) => this.setState({ name })}
+            placeholder={'Nome de usuário'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
 
-        {/* <Text>Email:</Text> */}
-        <TextInput
-          style={styles.authInputField}
-          onChangeText={(email) => this.setState({ email })}
-          placeholder={'E-mail'}
-          placeholderTextColor={Colors.white}
-          underlineColorAndroid={Colors.transparent}
-          selectionColor={Colors.fire}
-        />
+          <TextInput
+            style={styles.authInputField}
+            onChangeText={(email) => this.setState({ email })}
+            placeholder={'E-mail'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
 
-        {/* <Text>Senha:</Text> */}
-        <TextInput
-          style={styles.authInputField}
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({ password })}
-          placeholder={'Senha'}
-          placeholderTextColor={Colors.white}
-          underlineColorAndroid={Colors.transparent}
-          selectionColor={Colors.fire}
-        />
+          <TextInput
+            style={styles.authInputField}
+            secureTextEntry={true}
+            onChangeText={(password) => this.setState({ password })}
+            placeholder={'Senha'}
+            placeholderTextColor={Colors.white}
+            underlineColorAndroid={Colors.transparent}
+            selectionColor={Colors.fire}
+          />
 
-        <Button transparent light
-          style={{ alignSelf: 'auto' }}
-          onPress={this.emailSignUp.bind(this)}
-        >
-          <Text style={{ fontSize: Fonts.size.regular }}>Registrar-se</Text>
-        </Button>
-      </View>
+          <Button transparent light
+            style={{ alignSelf: 'auto' }}
+            onPress={this.emailSignUp.bind(this)}
+          >
+            <Text style={{ fontSize: Fonts.size.regular }}>Registrar-se</Text>
+          </Button>
+        </Content>
+      </Container>
     )
   }
 
@@ -80,9 +79,4 @@ export default class SignIn extends Component {
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen,
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
 })

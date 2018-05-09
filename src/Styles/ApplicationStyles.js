@@ -55,6 +55,11 @@ const ApplicationStyles = {
       width: '80%',
       margin: Metrics.baseMargin,
       padding: 10,
+    },
+    centered: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   }
 }

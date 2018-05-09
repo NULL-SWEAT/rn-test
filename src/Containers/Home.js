@@ -39,7 +39,7 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
-        <Content contentContainerStyle={styles.centered}>
+        <Content contentContainerStyle={[styles.centered, styles.bg]}>
 
           <Text style={{ color: Colors.white }}>Email: {this.state.currentUser.email}</Text>
           <Text style={{ color: Colors.white }}>Nome: {this.state.currentUser.displayName}</Text>
@@ -99,12 +99,7 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
   ...ApplicationStyles.screen,
-  container: {
-    flex: 1
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
+  bg: {
     backgroundColor: Colors.coal,
   },
   btnIcons: {
