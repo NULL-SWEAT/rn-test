@@ -3,7 +3,7 @@ import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator
 import MapView, { Marker } from 'react-native-maps'
 import Loader from '../Components/Loader'
 
-let markersCount = 0
+let markersCount = 4
 
 export default class Map extends Component {
   constructor(props) {
@@ -82,7 +82,7 @@ export default class Map extends Component {
   }
 
   onMapPress(e) {
-    this.props.navigation.navigate('MapModal', { newMarker: this.newMarker.bind(this), coordinate: e.nativeEvent.coordinate })
+    this.props.navigation.navigate('MapModal', { newMarker: this.newMarker.bind(this), event: e.nativeEvent })
   }
 
   newMarker(coord, title, description) {
@@ -110,6 +110,7 @@ export default class Map extends Component {
             style={styles.map}
             initialRegion={this.state.region}
             onPress={this.onMapPress}
+            onPoiClick={this.onMapPress}
           >
 
             <Marker
