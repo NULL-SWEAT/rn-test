@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, Linking, Platform } from 'react-native'
 import firebase from 'react-native-firebase'
+import { Container, Content, Button, Text, Footer, Icon } from 'native-base'
+
+import ShareButton from '../Components/ShareButton'
+import { ApplicationStyles, Metrics, Colors } from '../Styles';
 
 export default class Home extends Component {
   static navigationOptions = {
@@ -8,42 +12,77 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
+    firebase.auth().currentUser.reload()
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
   }
 
+  componentDidMount() {
+    // Linking
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url)
+      })
+    }
+  }
+
+  navigate = (url) => {
+    const { navigate } = this.props.navigation
+    const route = url.replace(/.*?:\/\//g, '')
+    const id = route.match(/\/([^\/]+)\/?$/)[1]
+    const routeName = route.split('/')[0]
+    if (routeName === 'map') {
+      navigate('Map', { id })
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
+        <Content contentContainerStyle={[styles.centered, styles.bg]}>
 
-        {/* <Text>{JSON.stringify(this.state.currentUser)}</Text> */}
-        <Text>Email: {this.state.currentUser.email}</Text>
-        <Text>Nome: {this.state.currentUser.displayName}</Text>
+          <Text style={{ color: Colors.white }}>Email: {this.state.currentUser.email}</Text>
+          <Text style={{ color: Colors.white }}>Nome: {this.state.currentUser.displayName}</Text>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('Camera')}
-        >
-          <Text>Camera</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Camera')}
+          >
+            <Icon style={styles.btnIcons} name='camera' />
+            <Text style={styles.buttonText}>Camera</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={() => this.props.navigation.navigate('Map')}
-        >
-          <Text>Map</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Map')}
+          >
+            <Icon style={styles.btnIcons} name='map' />
+            <Text style={styles.buttonText}>Map</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.firebaseSignOut}
-        >
-          <Text>Sign out</Text>
-        </TouchableOpacity>
+          <Button block iconLeft
+            style={styles.button}
+            onPress={this.firebaseSignOut}
+          >
+            <Icon style={styles.btnIcons} name='exit' />
+            <Text style={styles.buttonText}>Sign out</Text>
+          </Button>
 
-        <TouchableOpacity style={styles.btn}
-          onPress={this.deleteAcc}
-        >
-          <Text>Deletar conta</Text>
-        </TouchableOpacity>
-      </View>
+          <Button block danger iconLeft
+            style={styles.button}
+            onPress={this.deleteAcc.bind(this)}
+          >
+            <Icon style={styles.btnIcons} name='trash' />
+            <Text style={styles.buttonText}>Deletar conta</Text>
+          </Button>
+
+          <ShareButton
+            message='Testando compartilhamento.'
+            title='Título'
+            url='https://origammi.land'
+          />
+        </Content>
+      </Container>
     )
   }
 
@@ -59,13 +98,17 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
+  ...ApplicationStyles.screen,
+  bg: {
+    backgroundColor: Colors.coal,
   },
-  btn: {
-    alignItems: 'center',
-    backgroundColor: '#AAAAFF',
-    padding: 10,
-    margin: 5
+  btnIcons: {
+    position: 'absolute',
+    left: 0
+  },
+  button: {
+    alignSelf: 'auto',
+    width: '75%',
+    marginVertical: Metrics.marginVertical,
   }
 })

@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TextInput, ActivityIndicator, Image } from 'react-native'
+import { View, StyleSheet, TextInput, Image, KeyboardAvoidingView } from 'react-native'
 import firebase from 'react-native-firebase'
 import FacebookLogin from './FacebookLogin'
 import TransparentButton from '../Components/TransparentButton'
-import { ApplicationStyles, Metrics, Images, Colors } from '../Styles'
+import Separator from '../Components/Separator'
+import Loader from '../Components/Loader'
+import { ApplicationStyles, Metrics, Images, Colors, Fonts } from '../Styles'
+
+import { Container, Content, Button, Text, Footer } from 'native-base'
 
 export default class SignIn extends Component {
   constructor() {
@@ -14,7 +18,6 @@ export default class SignIn extends Component {
   }
 
   static navigationOptions = {
-    title: 'Login',
     header: null,
   }
 
@@ -32,28 +35,25 @@ export default class SignIn extends Component {
   }
 
   render() {
-    if(this.state.loading) return(
-      <View style={styles.mainContainer}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
 
     if(this.state.user) return(
       this.props.navigation.navigate('App')
     )
 
     return (
-      <View style={styles.mainContainer}>
-        <View style={styles.centered}>
-          <Image source={Images.background} style={styles.backgroundImage} resizeMode='contain' />
+      <Container>
+        <Loader loading={this.state.loading} />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
+        <Content contentContainerStyle={styles.centered}>
 
           <Text style={styles.logo}>LOGO AQUI</Text>
 
           <FacebookLogin />
 
-          {/* <Text style={styles.sectionText}>Email:</Text> */}
+          <Separator text='OU' />
+
           <TextInput
-            style={styles.input}
+            style={styles.authInputField}
             onChangeText={(email) => this.setState({ email })}
             placeholder={'Email'}
             placeholderTextColor={Colors.white}
@@ -61,9 +61,8 @@ export default class SignIn extends Component {
             selectionColor={Colors.fire}
           />
 
-          {/* <Text style={styles.sectionText}>Senha:</Text> */}
           <TextInput
-            style={styles.input}
+            style={styles.authInputField}
             secureTextEntry={true}
             onChangeText={(password) => this.setState({ password })}
             placeholder={'Senha'}
@@ -72,32 +71,44 @@ export default class SignIn extends Component {
             selectionColor={Colors.fire}
           />
 
-          <TransparentButton
+          {/* <TransparentButton
             onPress={this.emailLogin.bind(this)}
             text='Entrar'
-          />
+          /> */}
+          <Button bordered light
+            style={styles.button}
+            onPress={this.emailLogin.bind(this)}
+          >
+            <Text style={styles.buttonText}>Entrar</Text>
+          </Button>
 
-          <TransparentButton
-            onPress={() => this.props.navigation.navigate('SignUp')}
-            text='Registrar-se'
-          />
-        </View>
-      </View>
+          <View style={{ flexDirection: 'column', marginTop: Metrics.doubleSection }}>
+            <Button transparent light full
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('SignUp')}
+            >
+              <Text style={styles.buttonText}>Inscrever-se</Text>
+            </Button>
+            <Button transparent light full
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('PasswordReset')}
+            >
+              <Text style={styles.buttonText}>Redefinir Senha</Text>
+            </Button>
+          </View>
+        </Content>
+      </Container>
     )
   }
 
-  emailLogin = () => {
+  emailLogin = async () => {
     const { email, password } = this.state
-    firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
-      .then((user) => {
-        // If you need to do anything with the user, do it here
-        // The user will be logged in automatically by the
-        // `onAuthStateChanged` listener we set up in App.js earlier
-      })
-      .catch((error) => {
-        const { code, message } = error
-        window.alert(message)
-      })
+    try {
+      const { user } = await firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
+    } catch (error) {
+      const { code, message } = error
+      window.alert(message)
+    }
   }
 }
 
@@ -111,17 +122,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
-    color: Colors.white,
-    backgroundColor: Colors.coal,
-    height: 40,
-    width: 250,
-    margin: 5,
-    padding: 10,
+  button: {
+    alignSelf: 'auto',
+  },
+  buttonText: {
+    fontSize: Fonts.size.regular,
   },
   logo: {
     color: Colors.white,
-    fontSize: 30,
+    fontSize: Fonts.size.h2,
     margin: 35,
-  }
+  },
 })

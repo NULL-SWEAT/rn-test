@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TextInput } from 'react-native'
+import { Container, Content, Button, Text, Footer, FooterTab, Col } from 'native-base'
+import { ApplicationStyles, Fonts, Colors } from '../Styles'
 
 export default class MapModal extends Component {
   constructor(props) {
@@ -7,70 +9,77 @@ export default class MapModal extends Component {
     this.state = {
       title: '',
       description: '',
+      valid: false,
     }
+  }
+
+  componentDidMount() {
+    const { coordinate, name } = this.props.navigation.state.params.event
+    this.setState({ coordinate: coordinate })
+    if (name) this.setState({ title: name })
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Título:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(title) => this.setState({ title })}
-          value={this.state.title}
-        />
+      <Container>
+        <Content contentContainerStyle={styles.centered}>
+          <Text>Título:</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(title) => this.setState({ title })}
+            value={this.state.title}
+          />
 
-        <Text>Descrição:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(description) => this.setState({ description })}
-          value={this.state.description}
-        />
+          <Text>Descrição:</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(description) => this.setState({ description })}
+            value={this.state.description}
+          />
+        </Content>
 
-        <View style={styles.btnRow}>
-          <TouchableOpacity style={styles.btn}
-            onPress={() => this.props.navigation.goBack()}
-          >
-            <Text>Descartar</Text>
-          </TouchableOpacity>
+        <Footer>
+          <FooterTab>
+            <Button
+              style={styles.button}
+              onPress={() => this.props.navigation.goBack()}
+            >
+              <Text style={styles.buttonText}>Descartar</Text>
+            </Button>
 
-          <TouchableOpacity style={styles.btn}
-            onPress={this.saveMarker.bind(this)}
-          >
-            <Text>Salvar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <Button success
+              disabled={(this.state.title === '' || this.state.description === '')}
+              style={styles.button}
+              onPress={this.saveMarker.bind(this)}
+            >
+              <Text style={styles.buttonText}>Salvar</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
+      </Container>
     )
   }
 
   saveMarker() {
     if (this.state.title !== '' && this.state.description !== '') {
-      this.props.navigation.state.params.newMarker(this.props.navigation.state.params.coordinate, this.state.title, this.state.description)
+      this.props.navigation.state.params.newMarker(this.state.coordinate, this.state.title, this.state.description)
       this.props.navigation.goBack()
     }
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  ...ApplicationStyles.screen,
   input: {
     height: 45,
-    width: 250,
+    width: '75%',
     margin: 5
   },
-  btn: {
-    alignItems: 'center',
-    backgroundColor: '#AAAAFF',
-    padding: 10,
-    margin: 5,
+  button: {
+    alignSelf: 'auto',
   },
-  btnRow: {
-    flex: 0,
-    flexDirection: 'row',
-  }
+  buttonText: {
+    fontSize: Fonts.size.medium,
+    color: Colors.white,
+  },
 })

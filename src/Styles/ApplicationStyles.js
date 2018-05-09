@@ -12,6 +12,9 @@ const ApplicationStyles = {
       backgroundColor: Colors.transparent
     },
     backgroundImage: {
+      flex: 1,
+      width: undefined,
+      height: undefined,
       position: 'absolute',
       top: 0,
       left: 0,
@@ -44,6 +47,19 @@ const ApplicationStyles = {
       ...Fonts.style.h2,
       fontSize: 14,
       color: Colors.text
+    },
+    authInputField: {
+      color: Colors.white,
+      backgroundColor: Colors.customBlue,
+      height: 40,
+      width: '80%',
+      margin: Metrics.baseMargin,
+      padding: 10,
+    },
+    centered: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     }
   }
 }
