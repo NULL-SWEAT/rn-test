@@ -11,6 +11,7 @@ import Camera from '../Containers/Camera'
 import Home from '../Containers/Home'
 import Map from '../Containers/Map'
 import CameraGallery from '../Containers/CameraGallery'
+import PolygonMap from '../Containers/PolygonMap'
 
 import MapModal from '../Components/MapModal'
 import { Colors } from '../Styles';
@@ -20,6 +21,7 @@ const AppStackNoPrefix = StackNavigator({
   Camera: { screen: Camera },
   Map: { screen: Map, path: 'map/:marker' },
   CameraGallery: { screen: CameraGallery },
+  PolygonMap: { screen: PolygonMap },
 }, {
   headerMode: 'screen',
   navigationOptions: {

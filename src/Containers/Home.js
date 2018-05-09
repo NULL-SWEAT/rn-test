@@ -62,6 +62,14 @@ export default class Home extends Component {
 
           <Button block iconLeft
             style={styles.button}
+            onPress={() => this.props.navigation.navigate('PolygonMap')}
+          >
+            <Icon style={styles.btnIcons} name='map' />
+            <Text style={styles.buttonText}>Polygon Map</Text>
+          </Button>
+
+          <Button block iconLeft
+            style={styles.button}
             onPress={this.firebaseSignOut}
           >
             <Icon style={styles.btnIcons} name='exit' />
