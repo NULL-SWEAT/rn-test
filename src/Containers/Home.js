@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Linking, Platform } from 'react-native'
 import firebase from 'react-native-firebase'
 import { Container, Content, Button, Text, Footer, Icon } from 'native-base'
 
@@ -12,8 +12,28 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
+    firebase.auth().currentUser.reload()
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
+  }
+
+  componentDidMount() {
+    // Linking
+    if (Platform.OS === 'android') {
+      Linking.getInitialURL().then(url => {
+        this.navigate(url)
+      })
+    }
+  }
+
+  navigate = (url) => {
+    const { navigate } = this.props.navigation
+    const route = url.replace(/.*?:\/\//g, '')
+    const id = route.match(/\/([^\/]+)\/?$/)[1]
+    const routeName = route.split('/')[0]
+    if (routeName === 'map') {
+      navigate('Map', { id })
+    }
   }
 
   render() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StackNavigator, SwitchNavigator } from 'react-navigation'
+import { Platform } from 'react-native'
 
 import AuthLoadingScreen from '../Containers/AuthLoadingScreen'
 import SignIn from '../Containers/SignIn'
@@ -14,13 +15,12 @@ import CameraGallery from '../Containers/CameraGallery'
 import MapModal from '../Components/MapModal'
 import { Colors } from '../Styles';
 
-const AppStack = StackNavigator({
+const AppStackNoPrefix = StackNavigator({
   Home: { screen: Home },
   Camera: { screen: Camera },
-  Map: { screen: Map },
+  Map: { screen: Map, path: 'map/:marker' },
   CameraGallery: { screen: CameraGallery },
 }, {
-  // Default config for all screens
   headerMode: 'screen',
   navigationOptions: {
     headerTintColor: Colors.white,
@@ -31,6 +31,11 @@ const AppStack = StackNavigator({
     },
   }
 })
+
+// Prefix for deep linking (NECESSARY????)
+// const prefix = Platform.OS == 'android' ? 'testapp://testapp/' : 'testapp://'
+
+// const AppStack = () => <AppStackNoPrefix uriPrefix={prefix} />
 
 const AuthStack = StackNavigator({
   SignIn: { screen: SignIn },
@@ -48,7 +53,7 @@ const AuthStack = StackNavigator({
 })
 
 const RootStack = StackNavigator({
-  Main: { screen: AppStack },
+  Main: { screen: AppStackNoPrefix },
   MapModal: { screen: MapModal },
 },
   {
