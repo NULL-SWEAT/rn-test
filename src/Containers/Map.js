@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker, Callout } from 'react-native-maps'
 import Loader from '../Components/Loader'
+import CustomCallout from '../Components/CustomCallout'
+// import ShareButton from '../Components/ShareButton'
 
 let markersCount = 4
 
@@ -124,11 +126,18 @@ export default class Map extends Component {
 
             {this.state.markers.map(marker => (
               <Marker
-                title={marker.title}
-                description={marker.description}
                 key={marker.key}
                 coordinate={marker.coordinate}
-              />
+              >
+                <Callout tooltip>
+                  <CustomCallout>
+                    <Text>{marker.title}</Text>
+                    <Text>{marker.description}</Text>
+                    {/*   BUTTON INSIDE CALLOUT DOESN'T WORK   */}
+                    {/* <ShareButton title={marker.title} url={`testapp://map/${marker.key}`} /> */}
+                  </CustomCallout>
+                </Callout>
+              </Marker>
             ))}
 
           </MapView>
