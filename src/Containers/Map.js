@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator } from 'react-native'
-import MapView, { Marker, Callout } from 'react-native-maps'
+import { View, StyleSheet, PermissionsAndroid, Platform, Text, Switch } from 'react-native'
+import MapView, { Marker, Callout, MAP_TYPES } from 'react-native-maps'
 import Loader from '../Components/Loader'
 import CustomCallout from '../Components/CustomCallout'
+import { Colors, Fonts } from '../Styles';
 // import ShareButton from '../Components/ShareButton'
 
 let markersCount = 4
@@ -21,6 +22,8 @@ export default class Map extends Component {
         {"coordinate":{"longitude":-122.38521862775087,"latitude":41.42060692063931},"key":3,"title":"Weed","description":"City called Weed"}
       ],
       region: {},
+      mapType: 'standard',
+      switchMapType: false,
       loading: true,
     }
     this.onMapPress = this.onMapPress.bind(this)
@@ -113,6 +116,7 @@ export default class Map extends Component {
             initialRegion={this.state.region}
             onPress={this.onMapPress}
             onPoiClick={this.onMapPress}
+            mapType={this.state.mapType}
           >
 
             <Marker
@@ -141,6 +145,20 @@ export default class Map extends Component {
             ))}
 
           </MapView>
+
+          <View style={styles.buttonContainer}>
+            <Text style={Fonts.size.small}>Mapa</Text>
+            <Switch
+              value={this.state.switchMapType}
+              onValueChange={
+                (v) => {
+                  const type = this.state.mapType === 'standard' ? 'hybrid' : 'standard'
+                  this.setState({ mapType: type, switchMapType: v })
+                }
+              }
+            />
+            <Text style={Fonts.size.small}>Satélite</Text>
+          </View>
         </View>
       )
     }
@@ -179,5 +197,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
 });
