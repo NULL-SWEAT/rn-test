@@ -3,8 +3,9 @@ import { View, StyleSheet, PermissionsAndroid, Platform, Text, Switch } from 're
 import MapView, { Marker, Callout, MAP_TYPES } from 'react-native-maps'
 import Loader from '../Components/Loader'
 import CustomCallout from '../Components/CustomCallout'
-import { Colors, Fonts } from '../Styles';
+import { Colors, Fonts } from '../Styles'
 // import ShareButton from '../Components/ShareButton'
+import firebase from 'react-native-firebase'
 
 let markersCount = 4
 
@@ -15,18 +16,14 @@ export default class Map extends Component {
       latitude: null,
       longitude: null,
       error: null,
-      markers: [
-        {"coordinate":{"longitude":-53.46138205379248,"latitude":-24.95291957703744},"key":0,"title":"Origammi","description":"Origammi.land"},
-        {"coordinate":{"longitude":-118.25775694102049,"latitude":33.92945673257313},"key":1,"title":"LA","description":"Paradise on Earth"},
-        {"coordinate":{"longitude":-122.17631276696922,"latitude":37.416097944926},"key":2,"title":"Silicon Valley","description":"IT"},
-        {"coordinate":{"longitude":-122.38521862775087,"latitude":41.42060692063931},"key":3,"title":"Weed","description":"City called Weed"}
-      ],
+      markers: [],
       region: {},
       mapType: 'standard',
       switchMapType: false,
       loading: true,
     }
     this.onMapPress = this.onMapPress.bind(this)
+    this.db = firebase.firestore()
   }
 
   static navigationOptions = {
@@ -40,6 +37,25 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
+    // get markers in real time from Firestore db
+    const dbMarkers = this.db.collection('markers')
+    dbMarkers.onSnapshot((querySnapshot) => {
+      this.setState({ markers: [] })
+      querySnapshot.forEach((marker) => {
+        this.setState({
+          markers: [
+            ...this.state.markers,
+            {
+              ...marker.data(),
+              key: marker.id
+            }
+          ]
+        })
+      })
+      var source = querySnapshot.metadata.fromCache ? "local cache" : "server";
+      console.log("Data came from " + source);
+    })
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -90,18 +106,29 @@ export default class Map extends Component {
     this.props.navigation.navigate('MapModal', { newMarker: this.newMarker.bind(this), event: e.nativeEvent })
   }
 
-  newMarker(coord, title, description) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: coord,
-          key: markersCount++,
-          title: title,
-          description: description
-        },
-      ],
-    })
+  newMarker = async (coord, title, description) => {
+    try {
+      const newMrk = await this.db.collection('markers').add({
+        coordinate: coord,
+        title: title,
+        description: description
+      })
+      if(newMrk) window.alert('Novo marker salvo')
+    } catch(err) {
+      console.warn(err)
+    }
+
+    // this.setState({
+    //   markers: [
+    //     ...this.state.markers,
+    //     {
+    //       coordinate: coord,
+    //       key: markersCount++,
+    //       title: title,
+    //       description: description
+    //     },
+    //   ],
+    // })
   }
 
   render() {

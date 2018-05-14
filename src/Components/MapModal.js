@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, TextInput } from 'react-native'
-import { Container, Content, Button, Text, Footer, FooterTab, Col } from 'native-base'
+import { Container, Content, Button, Text, Footer, FooterTab } from 'native-base'
 import { ApplicationStyles, Fonts, Colors } from '../Styles'
 
 export default class MapModal extends Component {
