@@ -12,6 +12,7 @@ import Home from '../Containers/Home'
 import Map from '../Containers/Map'
 import CameraGallery from '../Containers/CameraGallery'
 import PolygonMap from '../Containers/PolygonMap'
+import OfflineTest from '../Containers/OfflineTest'
 
 import MapModal from '../Components/MapModal'
 import { Colors } from '../Styles';
@@ -22,7 +23,9 @@ const AppStackNoPrefix = StackNavigator({
   Map: { screen: Map, path: 'map/:marker' },
   CameraGallery: { screen: CameraGallery },
   PolygonMap: { screen: PolygonMap },
+  OfflineTest: { screen: OfflineTest }
 }, {
+  initialRouteName: 'OfflineTest',
   headerMode: 'screen',
   navigationOptions: {
     headerTintColor: Colors.white,
