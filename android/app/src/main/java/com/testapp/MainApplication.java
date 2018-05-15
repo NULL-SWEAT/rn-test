@@ -16,6 +16,9 @@ import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.airbnb.android.react.maps.MapsPackage;
 
+import android.support.multidex.MultiDex;
+import android.content.Context;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,5 +66,11 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+     super.attachBaseContext(base);
+     MultiDex.install(this);
   }
 }
