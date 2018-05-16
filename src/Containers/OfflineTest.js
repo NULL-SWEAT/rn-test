@@ -22,12 +22,12 @@ export default class OfflineTest extends Component {
   }
 
   componentDidMount() {
-    NetInfo.addEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    )
+    // NetInfo.addEventListener(
+    //   'connectionChange',
+    //   this.handleConnectionChange
+    // )
 
-    this.unsubscribe = this.db.collection('items').onSnapshot({ includeQueryMetadataChanges: true }, this.getItemsFromDb)
+    this.unsubscribe = this.db.collection('items').onSnapshot(this.getItemsFromDb)
   }
 
   handleConnectionChange = async (connInfo) => {
@@ -66,7 +66,7 @@ export default class OfflineTest extends Component {
     return (
       <Container>
         <Content>
-          <View style={{marginBottom:10}}>
+          <View style={{marginBottom:15}}>
             <TextInput
               onChangeText={(text) => this.setState({ text })}
               placeholder={'text'}
@@ -78,9 +78,11 @@ export default class OfflineTest extends Component {
 
           {this.state.items.map((item) => {
             return (
-              <Button key={item.key} onPress={() => {item.docRef.ref.delete()}}>
+              <Button key={item.key} onPress={() => {item.docRef.ref.delete()}}
+                style={{marginBottom:10}}
+              >
                 {/* <Text>id={item.key}</Text> */}
-                <Text>text={item.text}</Text>
+                <Text>{item.text}</Text>
               </Button>
             )
           })}

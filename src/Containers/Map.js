@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, PermissionsAndroid, Platform, Text, Switch } from 'react-native'
+import { View, StyleSheet, PermissionsAndroid, Platform, Text, Switch, NetInfo } from 'react-native'
 import MapView, { Marker, Callout, MAP_TYPES } from 'react-native-maps'
 import Loader from '../Components/Loader'
 import CustomCallout from '../Components/CustomCallout'
@@ -7,7 +7,7 @@ import { Colors, Fonts } from '../Styles'
 // import ShareButton from '../Components/ShareButton'
 import firebase from 'react-native-firebase'
 
-let markersCount = 4
+// let markersCount = 4
 
 export default class Map extends Component {
   constructor(props) {
@@ -21,9 +21,11 @@ export default class Map extends Component {
       mapType: 'standard',
       switchMapType: false,
       loading: true,
+      online: false,
     }
     this.onMapPress = this.onMapPress.bind(this)
     this.db = firebase.firestore()
+    this.unsubscribe = null
   }
 
   static navigationOptions = {
@@ -34,27 +36,21 @@ export default class Map extends Component {
     if (Platform.OS === 'android' && !PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
       this.requestGeolocationPermission()
     }
+
+    this.db.settings({ persistence: true })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   componentDidMount() {
-    // get markers in real time from Firestore db
-    const dbMarkers = this.db.collection('markers')
-    dbMarkers.onSnapshot((querySnapshot) => {
-      this.setState({ markers: [] })
-      querySnapshot.forEach((marker) => {
-        this.setState({
-          markers: [
-            ...this.state.markers,
-            {
-              ...marker.data(),
-              key: marker.id
-            }
-          ]
-        })
-      })
-      var source = querySnapshot.metadata.fromCache ? "local cache" : "server";
-      console.log("Data came from " + source);
-    })
+    NetInfo.addEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    )
+
+    this.unsubscribe = this.db.collection('markers').onSnapshot(this.getMarkersFromDb)
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -67,6 +63,14 @@ export default class Map extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
     )
+  }
+
+  handleConnectionChange = (connInfo) => {
+    if (connInfo.type === 'none') {
+      this.db.disableNetwork()
+    } else {
+      this.db.enableNetwork()
+    }
   }
 
   setInitialRegion() {
@@ -88,6 +92,21 @@ export default class Map extends Component {
     } else {
       this.setCurrentToRegion()
     }
+  }
+
+  // get markers in real time from Firestore db
+  getMarkersFromDb = (querySnapshot) => {
+      const markers = []
+      querySnapshot.docs.forEach((marker) => {
+        markers.push({
+          ...marker.data(),
+          key: marker.id
+        })
+      })
+      this.setState({ markers })
+
+      var source = querySnapshot.metadata.fromCache ? "local cache" : "server";
+      console.log("Data came from " + source);
   }
 
   setCurrentToRegion() {
@@ -113,31 +132,18 @@ export default class Map extends Component {
         title: title,
         description: description
       })
-      if(newMrk) window.alert('Novo marker salvo')
+      // if(newMrk) window.alert('Novo marker salvo')
     } catch(err) {
       console.warn(err)
     }
-
-    // this.setState({
-    //   markers: [
-    //     ...this.state.markers,
-    //     {
-    //       coordinate: coord,
-    //       key: markersCount++,
-    //       title: title,
-    //       description: description
-    //     },
-    //   ],
-    // })
   }
 
   render() {
 
     if (this.state.region.latitude &&
-      this.state.region.longitude &&
-      this.state.latitude) {
+      this.state.region.longitude) {
       return (
-        <View style={styles.container}>
+        <View style={styles.container} key={this.state.online}>
           <MapView
             style={styles.map}
             initialRegion={this.state.region}
@@ -188,11 +194,11 @@ export default class Map extends Component {
           </View>
         </View>
       )
+    } else {
+      return (
+        <Loader loading={this.state.loading} />
+      )
     }
-
-    return (
-      <Loader loading={this.state.loading} />
-    )
 
   }
 
