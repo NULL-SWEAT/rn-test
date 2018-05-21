@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -7,8 +7,8 @@ import {
   Platform,
   CameraRoll,
   PermissionsAndroid
-} from 'react-native';
-import { RNCamera } from 'react-native-camera';
+} from 'react-native'
+import { RNCamera } from 'react-native-camera'
 
 export default class Camera extends Component {
   constructor(props) {
@@ -19,12 +19,14 @@ export default class Camera extends Component {
   }
 
   componentWillMount() {
-    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
-      .then( r => {
-        if (r === false && Platform.OS === 'android') {
-          this.requestCameraPermission()
-        }
-      })
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+        .then( r => {
+          if (!r) {
+            this.requestCameraPermission()
+          }
+        })
+    }
   }
 
   toggleFacing() {
