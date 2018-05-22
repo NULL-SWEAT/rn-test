@@ -22,7 +22,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		27E39AE24BB64C0B9EB17AB6 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC32E551532A4C27B91D6C76 /* libRCTFBSDK.a */; };
 		28A4C2BA6EE14822ACED4B8F /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 545254A4D34948C18656E083 /* libRNFirebase.a */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -42,6 +41,7 @@
 		55232BDA20AF3DDF009D2458 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD620AF3DDE009D2458 /* FBSDKLoginKit.framework */; };
 		55232BDB20AF3DDF009D2458 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD720AF3DDE009D2458 /* FBSDKCoreKit.framework */; };
 		55232BDC20AF3DDF009D2458 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD820AF3DDF009D2458 /* FBSDKShareKit.framework */; };
+		55AAF78A20B35D130009CF30 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		55E62D3220B0F94E00C97C2D /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E62D3020B0F8B100C97C2D /* libRNCamera.a */; };
 		55E62D6B20B1090700C97C2D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E62D6A20B1090700C97C2D /* GoogleService-Info.plist */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -441,7 +441,7 @@
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				55232BDA20AF3DDF009D2458 /* FBSDKLoginKit.framework in Frameworks */,
-				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				55AAF78A20B35D130009CF30 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -1374,10 +1374,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-testapp/Pods-testapp-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC/gRPCCertificates.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
