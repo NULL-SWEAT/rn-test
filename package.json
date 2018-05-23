@@ -13,7 +13,7 @@
     "react-native": "0.55.3",
     "react-native-camera": "1.1.1",
     "react-native-fbsdk": "0.7.0",
-    "react-native-firebase": "4.1.0",
+    "react-native-firebase": "4.2.0",
     "react-native-maps": "0.21.0",
     "react-navigation": "1.5.11"
   },
