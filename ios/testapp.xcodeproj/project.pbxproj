@@ -41,9 +41,9 @@
 		55232BDA20AF3DDF009D2458 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD620AF3DDE009D2458 /* FBSDKLoginKit.framework */; };
 		55232BDB20AF3DDF009D2458 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD720AF3DDE009D2458 /* FBSDKCoreKit.framework */; };
 		55232BDC20AF3DDF009D2458 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55232BD820AF3DDF009D2458 /* FBSDKShareKit.framework */; };
+		556C2BF920B5D01600F8AB96 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 556C2BF820B5D01600F8AB96 /* GoogleService-Info.plist */; };
 		55AAF78A20B35D130009CF30 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		55E62D3220B0F94E00C97C2D /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55E62D3020B0F8B100C97C2D /* libRNCamera.a */; };
-		55E62D6B20B1090700C97C2D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E62D6A20B1090700C97C2D /* GoogleService-Info.plist */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		66E48E6C9BB24B818CBEF755 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 543E0D425B4146AC90DEDA0E /* Entypo.ttf */; };
 		7C29A7B7A2BD4006AE6B0884 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11016E535FD4D578500FEA6 /* Roboto_medium.ttf */; };
@@ -401,8 +401,8 @@
 		55232BD620AF3DDE009D2458 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../FacebookSDKs-iOS-4.33.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
 		55232BD720AF3DDE009D2458 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../FacebookSDKs-iOS-4.33.0/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
 		55232BD820AF3DDF009D2458 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../../../FacebookSDKs-iOS-4.33.0/FBSDKShareKit.framework"; sourceTree = "<group>"; };
+		556C2BF820B5D01600F8AB96 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55E62D0520B0F8B000C97C2D /* RNCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RNCamera.xcodeproj"; sourceTree = "<group>"; };
-		55E62D6A20B1090700C97C2D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5AE3B70BFC968783FE31CC7E /* Pods-testappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testappTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testappTests/Pods-testappTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E43C995B40845E39F65A1B2 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -731,7 +731,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				55E62D6A20B1090700C97C2D /* GoogleService-Info.plist */,
+				556C2BF820B5D01600F8AB96 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* testapp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* testappTests */,
@@ -1281,7 +1281,7 @@
 				8C4CE34A06F145908B81B730 /* Roboto.ttf in Resources */,
 				DC71FFFDD86E4DE790B7F547 /* SimpleLineIcons.ttf in Resources */,
 				8F10A8D4EEEC4B509405BDCD /* Zocial.ttf in Resources */,
-				55E62D6B20B1090700C97C2D /* GoogleService-Info.plist in Resources */,
+				556C2BF920B5D01600F8AB96 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
