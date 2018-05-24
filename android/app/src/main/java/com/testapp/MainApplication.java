@@ -22,7 +22,7 @@ import android.content.Context;
 import java.util.Arrays;
 import java.util.List;
 
-import org.reactnative.camera.RNCameraPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -43,7 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNFirebasePackage(),
-          new RNCameraPackage(),
+          new RCTCameraPackage(),
           new RNFirebaseAuthPackage(),
           new FBSDKPackage(mCallbackManager),
           new MapsPackage(),

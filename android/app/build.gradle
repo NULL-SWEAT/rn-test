@@ -106,7 +106,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        multiDexEnabled true    // Fix firebase firestore
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -142,6 +142,9 @@ dependencies {
         transitive = false
         exclude group: 'com.google.firebase'
     }
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-auth:15.1.0"   // Firebase auth
+    implementation "com.google.firebase:firebase-firestore:16.0.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:23.0.1"
@@ -154,9 +157,6 @@ dependencies {
             force = true
         }
     }
-    implementation "com.google.firebase:firebase-core:15.0.2"
-    implementation "com.google.firebase:firebase-auth:15.1.0"   // Firebase auth
-    implementation "com.google.firebase:firebase-firestore:16.0.0"
 
     implementation project(':react-native-fbsdk')
 

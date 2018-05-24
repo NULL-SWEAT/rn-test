@@ -46,7 +46,7 @@ export default class Home extends Component {
 
           <Button block iconLeft
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Camera')}
+            onPress={() => this.props.navigation.navigate('CameraScreen')}
           >
             <Icon style={styles.btnIcons} name='camera' />
             <Text style={styles.buttonText}>Camera</Text>

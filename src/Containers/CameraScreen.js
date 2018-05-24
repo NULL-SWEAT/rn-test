@@ -8,9 +8,9 @@ import {
   CameraRoll,
   PermissionsAndroid
 } from 'react-native'
-import { RNCamera } from 'react-native-camera'
+import Camera from 'react-native-camera'
 
-export default class Camera extends Component {
+export default class CameraScreen extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,7 +37,7 @@ export default class Camera extends Component {
 
   renderCamera() {
     return (
-      <RNCamera
+      <Camera
             ref={ref => { this.camera = ref; }}
             style = {styles.preview}
             type={this.state.type}
@@ -68,7 +68,7 @@ export default class Camera extends Component {
               <Text style={{fontSize: 14}}> Galeria </Text>
           </TouchableOpacity>
         </View>
-      </RNCamera>
+      </Camera>
     )
   }
 
@@ -77,13 +77,13 @@ export default class Camera extends Component {
       <View style={styles.container}>
         {this.renderCamera()}
       </View>
-    );
+    )
   }
 
   takePicture = async () => {
     if (this.camera) {
       const options = { quality: 1, base64: true }
-      const data = await this.camera.takePictureAsync(options)
+      const data = await this.camera.capture({metadata: options})
       // window.alert('base64:' + data.base64)
       await CameraRoll.saveToCameraRoll(data.uri)
     }
