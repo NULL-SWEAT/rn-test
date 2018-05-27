@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, PermissionsAndroid, Platform, Text, ActivityIndicator } from 'react-native'
-import MapView, { Marker, Callout } from 'react-native-maps'
+import { View, StyleSheet, PermissionsAndroid, Platform, Text, Switch, NetInfo } from 'react-native'
+import MapView, { Marker, Callout, MAP_TYPES } from 'react-native-maps'
 import Loader from '../Components/Loader'
 import CustomCallout from '../Components/CustomCallout'
+import { Colors, Fonts } from '../Styles'
 // import ShareButton from '../Components/ShareButton'
+import firebase from 'react-native-firebase'
 
-let markersCount = 4
+// let markersCount = 4
 
 export default class Map extends Component {
   constructor(props) {
@@ -14,16 +16,16 @@ export default class Map extends Component {
       latitude: null,
       longitude: null,
       error: null,
-      markers: [
-        {"coordinate":{"longitude":-53.46138205379248,"latitude":-24.95291957703744},"key":0,"title":"Origammi","description":"Origammi.land"},
-        {"coordinate":{"longitude":-118.25775694102049,"latitude":33.92945673257313},"key":1,"title":"LA","description":"Paradise on Earth"},
-        {"coordinate":{"longitude":-122.17631276696922,"latitude":37.416097944926},"key":2,"title":"Silicon Valley","description":"IT"},
-        {"coordinate":{"longitude":-122.38521862775087,"latitude":41.42060692063931},"key":3,"title":"Weed","description":"City called Weed"}
-      ],
+      markers: [],
       region: {},
+      mapType: 'standard',
+      switchMapType: false,
       loading: true,
+      online: false,
     }
     this.onMapPress = this.onMapPress.bind(this)
+    this.db = firebase.firestore()
+    this.unsubscribe = null
   }
 
   static navigationOptions = {
@@ -34,9 +36,22 @@ export default class Map extends Component {
     if (Platform.OS === 'android' && !PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
       this.requestGeolocationPermission()
     }
+
+    this.db.settings({ persistence: true })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 
   componentDidMount() {
+    NetInfo.addEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    )
+
+    this.unsubscribe = this.db.collection('markers').onSnapshot(this.getMarkersFromDb)
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -48,6 +63,14 @@ export default class Map extends Component {
       (error) => this.setState({ error: error.message }),
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
     )
+  }
+
+  handleConnectionChange = (connInfo) => {
+    if (connInfo.type === 'none') {
+      this.db.disableNetwork()
+    } else {
+      this.db.enableNetwork()
+    }
   }
 
   setInitialRegion() {
@@ -71,6 +94,21 @@ export default class Map extends Component {
     }
   }
 
+  // get markers in real time from Firestore db
+  getMarkersFromDb = (querySnapshot) => {
+      const markers = []
+      querySnapshot.docs.forEach((marker) => {
+        markers.push({
+          ...marker.data(),
+          key: marker.id
+        })
+      })
+      this.setState({ markers })
+
+      var source = querySnapshot.metadata.fromCache ? "local cache" : "server";
+      console.log("Data came from " + source);
+  }
+
   setCurrentToRegion() {
     this.setState({
       region: {
@@ -87,32 +125,31 @@ export default class Map extends Component {
     this.props.navigation.navigate('MapModal', { newMarker: this.newMarker.bind(this), event: e.nativeEvent })
   }
 
-  newMarker(coord, title, description) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: coord,
-          key: markersCount++,
-          title: title,
-          description: description
-        },
-      ],
-    })
+  newMarker = async (coord, title, description) => {
+    try {
+      const newMrk = await this.db.collection('markers').add({
+        coordinate: coord,
+        title: title,
+        description: description
+      })
+      // if(newMrk) window.alert('Novo marker salvo')
+    } catch(err) {
+      console.warn(err)
+    }
   }
 
   render() {
 
     if (this.state.region.latitude &&
-      this.state.region.longitude &&
-      this.state.latitude) {
+      this.state.region.longitude) {
       return (
-        <View style={styles.container}>
+        <View style={styles.container} key={this.state.online}>
           <MapView
             style={styles.map}
             initialRegion={this.state.region}
             onPress={this.onMapPress}
             onPoiClick={this.onMapPress}
+            mapType={this.state.mapType}
           >
 
             <Marker
@@ -141,13 +178,27 @@ export default class Map extends Component {
             ))}
 
           </MapView>
+
+          <View style={styles.buttonContainer}>
+            <Text style={Fonts.size.small}>Mapa</Text>
+            <Switch
+              value={this.state.switchMapType}
+              onValueChange={
+                (v) => {
+                  const type = this.state.mapType === 'standard' ? 'hybrid' : 'standard'
+                  this.setState({ mapType: type, switchMapType: v })
+                }
+              }
+            />
+            <Text style={Fonts.size.small}>Satélite</Text>
+          </View>
         </View>
       )
+    } else {
+      return (
+        <Loader loading={this.state.loading} />
+      )
     }
-
-    return (
-      <Loader loading={this.state.loading} />
-    )
 
   }
 
@@ -179,5 +230,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
 });

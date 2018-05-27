@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -15,10 +16,13 @@ import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.airbnb.android.react.maps.MapsPackage;
 
+import android.support.multidex.MultiDex;
+import android.content.Context;
+
 import java.util.Arrays;
 import java.util.List;
 
-import org.reactnative.camera.RNCameraPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -39,10 +43,11 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RNFirebasePackage(),
-          new RNCameraPackage(),
+          new RCTCameraPackage(),
           new RNFirebaseAuthPackage(),
           new FBSDKPackage(mCallbackManager),
-          new MapsPackage()
+          new MapsPackage(),
+          new RNFirebaseFirestorePackage()
       );
     }
 
@@ -61,5 +66,11 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+     super.attachBaseContext(base);
+     MultiDex.install(this);
   }
 }

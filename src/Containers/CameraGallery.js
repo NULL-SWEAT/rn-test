@@ -15,12 +15,14 @@ export default class CameraGallery extends Component {
   }
 
   componentWillMount() {
-    PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)
-      .then( r => {
-        if (r === false && Platform.OS === 'android') {
-          this.requestPermission()
-        }
-      })
+    if (Platform.OS === 'android') {
+      PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)
+        .then( r => {
+          if (!r) {
+            this.requestPermission()
+          }
+        })
+    }
   }
 
   componentDidMount() {

@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import { View, StyleSheet } from 'react-native'
+import { Root } from 'native-base'
 
 import SwitchNavigator from '../Navigation/SwitchNavigator'
 
 export default class App extends Component {
   render () {
     return (
-      <View style={styles.container}>
+      // <View style={styles.container}>
+      <Root>
         <SwitchNavigator />
-      </View>
+      </Root>
+      // </View>
     )
   }
 }
